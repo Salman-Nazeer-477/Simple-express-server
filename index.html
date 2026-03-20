@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AJAX Demonstration</title>
+    <script>
+        function loadData(){
+            const xhttp = new XMLHttpRequest()
+            xhttp.onload = function(){
+                document.getElementById("demo").innerHTML = this.responseText
+            }
+            xhttp.open("GET", "data", true)
+            xhttp.send()
+        }
+    </script>
+</head>
+<body>
+    <h1 id="demo">Hello World</h1>
+    <button onclick="loadData()">Load Data</button>
+</body>
+</html>
