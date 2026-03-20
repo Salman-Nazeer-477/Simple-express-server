@@ -1,8 +1,8 @@
-const express = require('express');
+const express = require('express')
 const path = require('path')
-const fs = require('fs');
-const app = express();
-const port = 3000;
+const fs = require('fs')
+const app = express()
+const port = 3000
 
 app.use(express.static(path.join(__dirname, 'public')))
 
@@ -11,19 +11,19 @@ app.get('/', (req, res) => {
 });
 
 app.get('/data', (req, res) => {
-  const filePath = path.join(__dirname, 'data.txt');
+  const filePath = path.join(__dirname, 'data.txt')
 
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {
-      console.error(err);
-      res.status(500).send('Error reading the file');
-      return;
+      console.error(err)
+      res.status(500).send('Error reading the file')
+      return
     }
     
-    res.send(data);
+    res.send(data)
   });
 });
 
 app.listen(port, () => {
   console.log(`Example app listening on  http://localhost:${port}`);
-});
+})
