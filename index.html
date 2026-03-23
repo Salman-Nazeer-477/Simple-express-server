@@ -1,20 +1,57 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>AJAX Demonstration</title>
     <script>
-        function loadData(){
+        function loadData() {
             const xhttp = new XMLHttpRequest()
-            xhttp.onload = function(){
+            xhttp.onload = function () {
                 document.getElementById("demo").innerHTML = this.responseText
             }
             xhttp.open("GET", "data", true)
             xhttp.send()
         }
+        function sendData() {
+            const text = document.getElementById('textdata').value;
+            console.log(text)
+            fetch("/datainput", {
+                method: 'PUT', // Specify the HTTP method as PUT
+                headers: {
+                    'Content-Type': 'text/plain' // Set the Content-Type header to text/plain
+                },
+                body: text, // The plain text string as the body
+            })
+                .then(response => {
+                    // Check if the request was successful (status in the 200-299 range)
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    // You can process the response here. 
+                    // Use response.text() if the server responds with plain text, 
+                    // or response.json() if it responds with JSON.
+                    const contentType = response.headers.get("content-type");
+                    if (contentType && contentType.includes("application/json")) {
+                        return response.json();
+                    } else {
+                        return response.text();
+                    }
+                })
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
     </script>
 </head>
+
 <body>
     <h1 id="demo">Hello World</h1>
     <button onclick="loadData()">Load Data</button>
+    <input type="text" name="textdata" id="textdata">
+    <button onclick="sendData()">send</button>
 </body>
+
 </html>
